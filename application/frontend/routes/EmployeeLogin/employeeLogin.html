@@ -55,8 +55,35 @@
       </nav>
 
       <!-- Page Content -->
-      <div class="container body-content">
-        <h1>Code Crafters</h1>
+      <div class="container mt-5 sliding-background">
+        <div class="login-container">
+          <h2 class="login-heading">Employee Login</h2>
+          <form>
+            <div class="form-group">
+              <label for="employeeId">Employee ID</label>
+              <input
+                type="text"
+                class="form-control"
+                id="employeeId"
+                placeholder="Enter Employee ID"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Enter Password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Login
+            </button>
+          </form>
+        </div>
       </div>
       <footer class="footer">
         <div class="container">

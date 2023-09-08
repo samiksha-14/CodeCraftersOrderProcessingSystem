@@ -23,6 +23,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  background-image: url("../images/banner.jpg");
+  background-size: cover;
 }
 
 img.brand-logo {

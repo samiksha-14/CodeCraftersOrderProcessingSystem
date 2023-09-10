@@ -6,11 +6,10 @@ div.body-content > h1 {
   font-size: 13rem;
   font-weight: bold;
   font-family: "Scriptina", sans-serif;
-  color: #fff;
-  /* background-image: url("../../assets/images/backdrop.jpg"); */
-  /* background-clip: text; */
-  /* -webkit-background-clip: text; */
-  /* color: transparent; */
+  background-image: url("../../assets/images/backdrop.jpg");
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 @media only screen and (max-width: 1200px) {

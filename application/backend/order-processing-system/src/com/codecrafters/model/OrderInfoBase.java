@@ -38,11 +38,9 @@ public class OrderInfoBase {
 
     @Override
     public String toString() {
-        return "OrderInfo{" +
+        return "{" +
                 "orderID=" + orderID + '\'' +
                 ", orderDate='" + orderDate + '\'' +
-                ", totalOrderValue=" + totalOrderValue +
-                '\'' +
-                '}';
+                ", totalOrderValue=" + totalOrderValue + ", ";
     }
 }

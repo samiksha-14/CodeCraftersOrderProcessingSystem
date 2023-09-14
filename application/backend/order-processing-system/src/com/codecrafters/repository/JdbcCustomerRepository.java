@@ -4,9 +4,14 @@ import com.codecrafters.database.DataSourceConnectionFactory;
 import com.codecrafters.exception.WrongCredentialsException;
 import com.codecrafters.model.Customer;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class JdbcCustomerRepository implements CustomerRepository {
+
+    // method to retrieve customer password from the database using id and password
     @Override
     public int retrieveCustomerPassword(int id, int password) {
 
@@ -30,6 +35,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return retrievedPass;
     }
 
+    // method to retrieve customer password from the database using name and password
     @Override
     public int retrieveCustomerPassword(String name, int password) {
         int retrievedPass = 0;
@@ -53,6 +59,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return retrievedPass;
     }
 
+    // method to check if customer exits or not, takes id as an input
     @Override
     public boolean checkIfCustomerExists(int id) {
         boolean customerExists = false;
@@ -76,6 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customerExists;
     }
 
+    // method to check if customer exits, takes name as an input
     @Override
     public boolean checkIfCustomerExists(String name) {
         boolean customerExists = false;
@@ -99,6 +107,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customerExists;
     }
 
+    // method that gets customer id from customer name
     @Override
     public int getCustomerId(String name) {
         int retrievedCustomerId = 0;
@@ -121,6 +130,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return retrievedCustomerId;
     }
 
+    // method that add new customer to the database
     @Override
     public void addNewCustomer(Customer customer) {
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {

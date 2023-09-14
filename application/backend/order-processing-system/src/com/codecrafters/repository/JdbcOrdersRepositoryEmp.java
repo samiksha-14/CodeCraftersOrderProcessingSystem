@@ -2,6 +2,7 @@ package com.codecrafters.repository;
 
 import com.codecrafters.database.DataSourceConnectionFactory;
 import com.codecrafters.exception.InvoiceFetchingFailedException;
+import com.codecrafters.exception.OrderLoadingFailureException;
 import com.codecrafters.model.*;
 
 import java.sql.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
 
+    // method to load approved orders
     @Override
     public List<OrderInfoBase> loadApprovedOrders() {
         List<OrderInfoBase> approvedOrders = new ArrayList<>();
@@ -37,12 +39,13 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new OrderLoadingFailureException("failed loading orders from DB");
         }
 
         return approvedOrders;
     }
 
+    // method to load pending orders
     @Override
     public List<OrderInfoBase> loadPendingOrders() {
         List<OrderInfoBase> pendingOrders = new ArrayList<>();
@@ -75,7 +78,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         return pendingOrders;
     }
 
-
+    // method to load completed orders
     @Override
     public List<OrderInfoBase> loadCompletedOrders() {
         List<OrderInfoBase> completedOrders = new ArrayList<>();
@@ -108,6 +111,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         return completedOrders;
     }
 
+    // method to load expired orders
     @Override
     public List<OrderInfoBase> loadExpiredOrders() {
         List<OrderInfoBase> expiredOrders = new ArrayList<>();
@@ -140,6 +144,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         return expiredOrders;
     }
 
+    // method to check is order approved or not using orderID
     @Override
     public boolean isOrderApproved(int id) {
         boolean isApproved = false;
@@ -168,6 +173,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         return isApproved;
     }
 
+    // method to load invoice for approved orders for a customer with some customerId
     @Override
     public Invoice loadInvoiceForApprovedOrder(int id) {
         Invoice invoice = null;
@@ -201,6 +207,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         return invoice;
     }
 
+    // method to create new quote using order, and other fields.
     @Override
     public boolean createNewQuote(Order order, double totalOrderValue, double shippingCost) {
 
@@ -208,11 +215,11 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
             String sqlQuery = "INSERT INTO `Orders` (orderDate, customerID, customerShippingAddress, totalOrderValue, shippingCost, shippingAgency) VALUES (?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
-                preparedStatement.setDate(1, new java.sql.Date(order.getOrderDate().getTime()));
+                preparedStatement.setDate(1, Date.valueOf(order.getOrderDate()));
                 preparedStatement.setInt(2, order.getCustomerID());
                 preparedStatement.setString(3, order.getCustomerShippingAddress());
-                preparedStatement.setFloat(4, (float)totalOrderValue);
-                preparedStatement.setFloat(5, (float)shippingCost);
+                preparedStatement.setFloat(4, (float) totalOrderValue);
+                preparedStatement.setFloat(5, (float) shippingCost);
                 preparedStatement.setString(6, order.getShippingAgency());
 
                 preparedStatement.executeUpdate();
@@ -222,5 +229,33 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         }
 
         return false;
+    }
+
+    // method to load product category, which is further used to calculate shipping cost
+    @Override
+    public List<String> loadProductCategory(List<Product> products) {
+        List<String> productCategories = new ArrayList<>();
+
+        try (Connection connection = DataSourceConnectionFactory.getConnection()) {
+            String sqlQuery = "SELECT pc.Category " +
+                    "FROM ProductCategory pc " +
+                    "WHERE pc.ProductID = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+                for (Product product : products) {
+                    preparedStatement.setInt(1, product.getProductID());
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            String category = resultSet.getString("Category");
+                            productCategories.add(category);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productCategories;
     }
 }

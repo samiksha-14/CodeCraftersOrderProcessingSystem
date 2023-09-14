@@ -1,11 +1,11 @@
 package com.codecrafters.model;
 
-import java.util.Date; // Import Date class for OrderDate
+import java.time.LocalDate;
 
 public class Order {
     // Fields representing the columns in the Order table
     private int orderID; // Primary Key
-    private Date orderDate;
+    private LocalDate orderDate;
     private int customerID; // Foreign Key
     private String customerShippingAddress;
     private float totalOrderValue;
@@ -19,7 +19,7 @@ public class Order {
     }
 
     // Constructor for creating an Order object with initial values
-    public Order(Date orderDate, int customerID, String customerShippingAddress, float totalOrderValue, float shippingCost, String shippingAgency) {
+    public Order(LocalDate orderDate, int customerID, String customerShippingAddress, float totalOrderValue, float shippingCost, String shippingAgency) {
         this.orderDate = orderDate;
         this.customerID = customerID;
         this.customerShippingAddress = customerShippingAddress;
@@ -38,11 +38,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 

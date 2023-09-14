@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderInfoBase> fetchAllOrders();
+
     Invoice fetchInvoice(int id);
 }

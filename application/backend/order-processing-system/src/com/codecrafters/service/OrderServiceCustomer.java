@@ -73,7 +73,7 @@ public class OrderServiceCustomer extends BaseOrderServiceCustomer {
     @Override
     public Invoice fetchInvoice(int id) {
         // check if the order is approved or completed
-        if(!ordersRepositoryCustomer.isOrderApprovedCompleted(id)) {
+        if (!ordersRepositoryCustomer.isOrderApprovedCompleted(id)) {
             throw new CannotFetchInvoiceForNotApprovedNotCompletedOrdersException("order is neither approved nor completed, hence cannot fetch any invoice for the order Id : " + id);
         }
 

@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 
 public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
+
+    // method to load pending orders for a customer id
     @Override
     public List<OrderInfoBase> loadPendingOrders(int id) {
 
@@ -51,6 +53,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return pendingOrders;
     }
 
+    // method to retrieve order date from a particular order id
     @Override
     public Date retrieveOrderDate(int orderId) {
         Date date = new Date();
@@ -74,6 +77,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return date;
     }
 
+    // method to  check if orders exists or not using orderId
     @Override
     public boolean checkIfOrderExists(int orderId) {
         boolean orderExists = false;
@@ -99,6 +103,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return orderExists; // Returns false if an exception occurred or no order was found
     }
 
+    //  method to load completed order for a particular customer id
     @Override
     public List<OrderInfoBase> loadCompletedOrders(int id) {
         List<OrderInfoBase> completedOrders = new ArrayList<>();
@@ -132,6 +137,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return completedOrders;
     }
 
+    //method to load approved orders for a particular customerId
     @Override
     public List<OrderInfoBase> loadApprovedOrders(int id) {
         List<OrderInfoBase> approvedOrders = new ArrayList<>();
@@ -165,6 +171,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return approvedOrders;
     }
 
+    // method to check if order is approved or completed using orderId
     @Override
     public boolean isOrderApprovedCompleted(int id) {
         boolean isApprovedOrCompleted = false;
@@ -189,6 +196,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return isApprovedOrCompleted;
     }
 
+    // method to load invoice for approved or completed orders
     @Override
     public Invoice loadInvoiceForApprovedCompletedOrder(int id) {
         Invoice invoice = null;
@@ -222,6 +230,7 @@ public class JdbcOrdersRepositoryCustomer implements OrdersRepositoryCustomer {
         return invoice;
     }
 
+    // method to change order status
     @Override
     public void changeOrderStatus(int orderId, String status) {
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {

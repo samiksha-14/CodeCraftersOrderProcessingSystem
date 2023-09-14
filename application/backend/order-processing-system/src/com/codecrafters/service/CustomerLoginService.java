@@ -1,9 +1,8 @@
 package com.codecrafters.service;
 
 import com.codecrafters.repository.CustomerRepository;
-import com.codecrafters.repository.EmployeeRepository;
 
-public class CustomerLoginService extends BaseCustomerLoginService{
+public class CustomerLoginService extends BaseCustomerLoginService {
 
     private CustomerRepository repository = null;
 
@@ -13,7 +12,7 @@ public class CustomerLoginService extends BaseCustomerLoginService{
 
     @Override
     public boolean login(int id, int password) {
-        int retrievedPassword = repository.retrieveCustomerPassword(id,password);
+        int retrievedPassword = repository.retrieveCustomerPassword(id, password);
         return (password == retrievedPassword);
     }
 

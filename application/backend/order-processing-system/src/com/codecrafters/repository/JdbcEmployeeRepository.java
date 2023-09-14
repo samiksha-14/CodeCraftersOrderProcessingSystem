@@ -9,16 +9,18 @@ import com.codecrafters.model.Employee;
 import java.sql.*;
 import java.time.LocalDateTime;
 
-public class JdbcEmployeeRepository implements EmployeeRepository{
+public class JdbcEmployeeRepository implements EmployeeRepository {
+
+    // method to retrieve employee password
     public int retrieveEmployeePassword(int id, int password) {
         int retrievedPassword = 0;
-        try(Connection connection = DataSourceConnectionFactory.getConnection()) {
+        try (Connection connection = DataSourceConnectionFactory.getConnection()) {
             String sqlQuery = "SELECT password FROM Employees WHERE employeeId = ?";
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                 preparedStatement.setInt(1, id);
                 preparedStatement.executeQuery();
-                try(ResultSet resultSet = preparedStatement.getResultSet()) {
-                    if(resultSet.next()) {
+                try (ResultSet resultSet = preparedStatement.getResultSet()) {
+                    if (resultSet.next()) {
                         retrievedPassword = resultSet.getInt("password");
 
                     } else {
@@ -33,6 +35,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
         return retrievedPassword;
     }
 
+    // method to check employee login status
     @Override
     public boolean employeeLoginStatus(int id) {
         boolean loggedIn = false;
@@ -54,10 +57,11 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
         return loggedIn;
     }
 
+    // method to update employee login status
     @Override
     public void updateEmployeeLoginStatus(int id, boolean status) {
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
-            if(status) {
+            if (status) {
                 String sqlQuery = "UPDATE Employees SET loggedIn = ?, lastLoggedIn = ? WHERE employeeId = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                     preparedStatement.setBoolean(1, true);
@@ -88,6 +92,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
         }
     }
 
+    // method to load employee using employee id
     @Override
     public Employee loadEmployee(int id) {
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {

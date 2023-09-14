@@ -4,6 +4,8 @@ import com.codecrafters.Utils.ShippingCalculator;
 import com.codecrafters.Utils.TotalOrderValueCalculator;
 import com.codecrafters.exception.CannotFetchInvoiceForNonApprovedOrderException;
 import com.codecrafters.exception.CustomerNotFoundException;
+import com.codecrafters.exception.OrderDateBeyondThreeWorkingDaysException;
+import com.codecrafters.exception.OrderDateCannotBePreviousDateException;
 import com.codecrafters.model.Invoice;
 import com.codecrafters.model.Order;
 import com.codecrafters.model.OrderInfoBase;
@@ -11,12 +13,11 @@ import com.codecrafters.model.Product;
 import com.codecrafters.repository.CustomerRepository;
 import com.codecrafters.repository.OrdersRepositoryEmp;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class OrderServiceEmployee extends BaseOrderServiceEmployee{
+public class OrderServiceEmployee extends BaseOrderServiceEmployee {
     OrdersRepositoryEmp ordersRepositoryEmp = null;
     CustomerRepository customerRepository = null;
 
@@ -66,48 +67,27 @@ public class OrderServiceEmployee extends BaseOrderServiceEmployee{
     }
 
     @Override
-    public void createNewQuote(Date orderDate, List<Product> products, int customerID, String customerGSTNo, String customerShippingAddress, String customerCity, String customerMobileNo, String customerEmail, String customerPinCode, String shippingAgency) {
+    public void createNewQuote(LocalDate orderDate, List<Product> products, int customerID, String customerGSTNo, String customerShippingAddress, String customerCity, String customerMobileNo, String customerEmail, String customerPinCode, String shippingAgency) {
         // check if the customer already exists
-        if(customerRepository.checkIfCustomerExists(customerID)) {
-            // 1. Check if the Order Date is in the future (not a previous date)
-            Date currentDate = new Date();
-            if (orderDate.before(currentDate)) {
-                throw new IllegalArgumentException("Order Date cannot be a previous date.");
+        if (customerRepository.checkIfCustomerExists(customerID)) {
+            // check and throw errors
+            // order date cannot be previous date
+            LocalDate currentDate = LocalDate.now();
+            if (orderDate.isBefore(currentDate)) {
+                throw new OrderDateCannotBePreviousDateException("Order date cannot be a previous date");
             }
 
-            // 2. Check if the Order Date is not the current date or within 3 working days (Monday to Friday)
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(orderDate);
-            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-            // Check if the Order Date falls on a Saturday (Calendar.SATURDAY) or Sunday (Calendar.SUNDAY)
-            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                throw new IllegalArgumentException("Order Date cannot be on a weekend (Saturday or Sunday).");
-            }
-
-            // Check if the Order Date is on the current date or within 3 working days
-            cal.setTime(currentDate);
-            int workingDayCount = 0;
-            while (!cal.getTime().after(orderDate)) {
-                dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-                // Check if the day is a working day (Monday to Friday)
-                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                    workingDayCount++;
-                }
-
-                // Move to the next day
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-            }
-
-            if (workingDayCount <= 3) {
-                throw new IllegalArgumentException("Order Date cannot be the current date or within 3 working days.");
+            // Check if order date is within 3 working days (Mon to Fri)
+            LocalDate maxOrderDate = currentDate.plusDays(3); // Assuming 3 working days
+            if (orderDate.isAfter(maxOrderDate)) {
+                throw new OrderDateBeyondThreeWorkingDaysException("Order date must be within 3 working days (Mon to Fri)");
             }
 
             double totalOrderValue = TotalOrderValueCalculator.calculateTotalOrderValue(products);
-            double shippingCost = ShippingCalculator.calculateShippingCost(products, totalOrderValue);
+            List<String> productCategories = ordersRepositoryEmp.loadProductCategory(products);
+            double shippingCost = ShippingCalculator.calculateShippingCost(products, productCategories, totalOrderValue);
 
-            Order newOrder = new Order(orderDate, customerID, customerShippingAddress, (float)totalOrderValue, (float)shippingCost, shippingAgency);
+            Order newOrder = new Order(orderDate, customerID, customerShippingAddress, (float) totalOrderValue, (float) shippingCost, shippingAgency);
             ordersRepositoryEmp.createNewQuote(newOrder, totalOrderValue, shippingCost);
         } else {
             throw new CustomerNotFoundException("Customer not found : " + customerID);
@@ -116,47 +96,15 @@ public class OrderServiceEmployee extends BaseOrderServiceEmployee{
     }
 
     @Override
-    public void createNewQuote(Date orderDate, List<Product> products, String customerName, String customerGSTNo, String customerShippingAddress, String customerCity, String customerMobileNo, String customerEmail, String customerPinCode, String shippingAgency) {
-        if(customerRepository.checkIfCustomerExists(customerName)) {
+    public void createNewQuote(LocalDate orderDate, List<Product> products, String customerName, String customerGSTNo, String customerShippingAddress, String customerCity, String customerMobileNo, String customerEmail, String customerPinCode, String shippingAgency) {
+        if (customerRepository.checkIfCustomerExists(customerName)) {
             int id = customerRepository.getCustomerId(customerName);// 1. Check if the Order Date is in the future (not a previous date)
-            Date currentDate = new Date();
-            if (orderDate.before(currentDate)) {
-                throw new IllegalArgumentException("Order Date cannot be a previous date.");
-            }
-
-            // 2. Check if the Order Date is not the current date or within 3 working days (Monday to Friday)
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(orderDate);
-            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-            // Check if the Order Date falls on a Saturday (Calendar.SATURDAY) or Sunday (Calendar.SUNDAY)
-            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                throw new IllegalArgumentException("Order Date cannot be on a weekend (Saturday or Sunday).");
-            }
-
-            // Check if the Order Date is on the current date or within 3 working days
-            cal.setTime(currentDate);
-            int workingDayCount = 0;
-            while (!cal.getTime().after(orderDate)) {
-                dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-                // Check if the day is a working day (Monday to Friday)
-                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                    workingDayCount++;
-                }
-
-                // Move to the next day
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-            }
-
-            if (workingDayCount <= 3) {
-                throw new IllegalArgumentException("Order Date cannot be the current date or within 3 working days.");
-            }
 
             double totalOrderValue = TotalOrderValueCalculator.calculateTotalOrderValue(products);
-            double shippingCost = ShippingCalculator.calculateShippingCost(products, totalOrderValue);
+            List<String> productCategories = ordersRepositoryEmp.loadProductCategory(products);
+            double shippingCost = ShippingCalculator.calculateShippingCost(products, productCategories, totalOrderValue);
 
-            Order newOrder = new Order(orderDate, id, customerShippingAddress, (float)totalOrderValue, (float)shippingCost, shippingAgency);
+            Order newOrder = new Order(orderDate, id, customerShippingAddress, (float) totalOrderValue, (float) shippingCost, shippingAgency);
             ordersRepositoryEmp.createNewQuote(newOrder, totalOrderValue, shippingCost);
         } else {
             throw new CustomerNotFoundException("Customer not found : " + customerName);

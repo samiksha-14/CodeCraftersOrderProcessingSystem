@@ -5,7 +5,6 @@ public class Product {
     private int productID; // Primary Key
     private String name;
     private float price;
-    private String category;
 
     // Constructors
 
@@ -14,7 +13,8 @@ public class Product {
     }
 
     // Constructor for creating a Product object with initial values
-    public Product(String name, int price) {
+    public Product(int productID, String name, float price) {
+        this.productID = productID;
         this.name = name;
         this.price = price;
     }
@@ -51,15 +51,8 @@ public class Product {
                 "productID=" + productID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", category='" + category + '\'' +
+                ", category='" +
                 '}';
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

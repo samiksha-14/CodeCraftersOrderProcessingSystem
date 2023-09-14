@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class ProductsRepositoryImpl implements ProductsRepository{
+public class ProductsRepositoryImpl implements ProductsRepository {
     @Override
     public double getTotalOrderValue(List<Map<Product, Integer>> products) {
         double totalValue = 0.0;

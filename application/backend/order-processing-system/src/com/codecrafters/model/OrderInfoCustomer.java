@@ -1,6 +1,6 @@
 package com.codecrafters.model;
 
-public class OrderInfoCustomer extends OrderInfoBase{
+public class OrderInfoCustomer extends OrderInfoBase {
     private double shippingCost;
     private String status;
 
@@ -33,7 +33,7 @@ public class OrderInfoCustomer extends OrderInfoBase{
 
     @Override
     public String toString() {
-        return super.toString() + "OrderInfoCustomer{" +
+        return super.toString() +
                 "shippingCost=" + shippingCost +
                 '}';
     }

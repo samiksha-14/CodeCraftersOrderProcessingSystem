@@ -1,6 +1,6 @@
 package com.codecrafters.model;
 
-public class OrderInfoEmployee extends OrderInfoBase{
+public class OrderInfoEmployee extends OrderInfoBase {
 
     private String customerName;
     private String customerCity;

@@ -13,7 +13,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
       console.log(user);
       if (user) {
-        window.location.href = `../OrderManagement/orderManagement.html?employeeId=${user.employeeId}&password=${user.password}`;
+        window.location.href = `../OrderManagementEmployee/orderManagementEmployee.html?employeeId=${user.employeeId}&password=${user.password}`;
       } else {
         alert("Invalid credentials. Please try again.");
       }

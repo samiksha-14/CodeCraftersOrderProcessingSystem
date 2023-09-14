@@ -2,6 +2,7 @@
   "customers": [
     {
       "customer_id": "C001",
+      "password": "passC001";
       "name": "John Doe",
       "gst_number": "GST123456789",
       "address": "123 Main St",
@@ -12,6 +13,7 @@
     },
     {
       "customer_id": "C002",
+      "password": "passC002";
       "name": "Jane Smith",
       "gst_number": "GST987654321",
       "address": "456 Elm St",
@@ -22,6 +24,7 @@
     },
     {
       "customer_id": "C003",
+      "password": "passC003";
       "name": "Alice Johnson",
       "gst_number": "GST567890123",
       "address": "789 Oak St",
@@ -32,6 +35,7 @@
     },
     {
       "customer_id": "C004",
+      "password": "passC004";
       "name": "Bob Brown",
       "gst_number": "GST456789012",
       "address": "321 Pine St",
@@ -42,6 +46,7 @@
     },
     {
       "customer_id": "C005",
+      "password": "passC005";
       "name": "Eva White",
       "gst_number": "GST234567890",
       "address": "567 Cedar St",

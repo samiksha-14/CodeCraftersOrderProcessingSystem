@@ -179,9 +179,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const employeeId = getUrlParameter("employeeId");
   const password = getUrlParameter("password");
 
-  console.log(employeeId);
-  console.log(password);
-
   if (employeeId && password) {
     document.getElementById(
       "employeeId",

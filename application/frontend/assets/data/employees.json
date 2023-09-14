@@ -1,0 +1,29 @@
+{
+  "employees": [
+    {
+      "employeeId": 1,
+      "password": "pass",
+      "last_logged_in": "2023-09-10T14:30:00Z"
+    },
+    {
+      "employeeId": 2,
+      "password": "hashed_password_2",
+      "last_logged_in": "2023-09-09T10:15:00Z"
+    },
+    {
+      "employeeId": 3,
+      "password": "hashed_password_3",
+      "last_logged_in": "2023-09-08T16:45:00Z"
+    },
+    {
+      "employeeId": 4,
+      "password": "hashed_password_4",
+      "last_logged_in": "2023-09-07T08:00:00Z"
+    },
+    {
+      "employeeId": 5,
+      "password": "hashed_password_5",
+      "last_logged_in": "2023-09-06T19:20:00Z"
+    }
+  ]
+}

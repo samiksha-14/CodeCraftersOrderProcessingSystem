@@ -1,0 +1,64 @@
+{
+  "orders": [
+    {
+      "order_id": "12345",
+      "order_date": "2023-09-14T00:00:00.000Z",
+      "customer_name": "John Doe",
+      "customer_shipping_address": "123 Main St, Cityville, USA",
+      "products": [
+        {
+          "product_id": "P001",
+          "product_name": "Product A",
+          "price": 19.99,
+          "category": 1
+        },
+        {
+          "product_id": "P002",
+          "product_name": "Product B",
+          "price": 29.99,
+          "category": 2
+        }
+      ],
+      "total_order_value": 139.95,
+      "shipping_cost": 10.0,
+      "shipping_agency": "FastShip Express",
+      "status": "pending"
+    },
+    {
+      "order_id": "67890",
+      "order_date": "2023-09-15T00:00:00.000Z",
+      "customer_name": "Jane Smith",
+      "customer_shipping_address": "456 Elm St, Townsville, USA",
+      "products": [
+        {
+          "product_id": "P003",
+          "product_name": "Product C",
+          "price": 49.99,
+          "category": 3
+        }
+      ],
+      "total_order_value": 49.99,
+      "shipping_cost": 5.0,
+      "shipping_agency": "SwiftShip",
+      "status": "approved"
+    },
+    {
+      "order_id": "54321",
+      "order_date": "2023-09-16T00:00:00.000Z",
+      "customer_name": "Alice Johnson",
+      "customer_shipping_address": "789 Oak St, Villagetown, USA",
+      "products": [
+        {
+          "product_id": "P004",
+          "product_name": "Product D",
+          "price": 59.99,
+          "category": 1
+        }
+      ],
+      "total_order_value": 59.99,
+      "shipping_cost": 7.5,
+      "shipping_agency": "Speedy Logistics",
+      "status": "completed"
+    }
+  ]
+}

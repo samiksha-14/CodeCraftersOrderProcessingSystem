@@ -15,8 +15,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
       console.log(user);
       if (user) {
-        // window.location.href = `../OrderManagementEmployee/orderManagementEmployee.html?employeeId=${user.name}&password=${user.password}`;
-        alert("Successful Login");
+        window.location.href = `../OrderManagementCustomer/orderManagementCustomer.html`;
       } else {
         alert("Invalid credentials. Please try again.");
       }

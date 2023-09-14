@@ -1,8 +1,51 @@
 document.addEventListener("DOMContentLoaded", function () {
+  function goToOrderDetails(orderId) {
+    window.location.href = `../OrderDetails/orderDetails.html?order_id=${orderId}`;
+  }
+
+  // Function to update the order status to "approved" in the JSON file
+  function approveOrder(orderId) {
+    // Fetch orders from the JSON file
+    fetch("../../assets/data/orders.json")
+      .then((response) => response.json())
+      .then((data) => {
+        // Find the order based on the order ID
+        const order = data.orders.find((order) => order.order_id === orderId);
+
+        if (order) {
+          // Update the status to "approved"
+          order.status = "approved";
+
+          // Update the JSON file with the modified data
+          fetch("../../assets/data/orders.json", {
+            method: "PUT", // Use PUT to update the file
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(() => {
+              // Refresh the page to reflect the updated status
+              location.reload();
+            })
+            .catch((error) => {
+              console.error("Error updating order status:", error);
+            });
+        } else {
+          alert("Order not found.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+      });
+  }
+
   // Fetch orders from the JSON file
   fetch("../../assets/data/orders.json")
     .then((response) => response.json())
     .then((data) => {
+      const orderList = document.getElementById("order-list");
+
       data.orders.forEach(function (order) {
         var orderItem = `
                     <li class="list-group-item">
@@ -28,21 +71,24 @@ document.addEventListener("DOMContentLoaded", function () {
                             }</span></div>
                         </div>
 
-                        <!-- "View Invoice" button -->
-                        <div class="row mt-2">
+                        <!-- Clickable item for detailed view -->
+                        <div class="row mt-2 cursor-pointer" data-orderid="${
+                          order.order_id
+                        }">
                             <div class="col-md-6">
+                              <button type="button" class="btn btn-primary view-details">
+                                    View Details
+                                </button>
+                                <!-- "Approve" button -->
                                 ${
-                                  order.status === "approved" ||
-                                  order.status === "completed"
+                                  order.status === "pending"
                                     ? `
                                     <button
                                         type="button"
-                                        class="btn btn-primary view-invoice"
-                                        data-toggle="modal"
-                                        data-target="#invoiceModal"
+                                        class="btn btn-success approve-order"
                                         data-orderid="${order.order_id}"
                                     >
-                                        View Invoice
+                                        Approve
                                     </button>
                                 `
                                     : ""
@@ -51,20 +97,44 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                     </li>
                 `;
-        document.getElementById("order-list").innerHTML += orderItem;
+
+        orderList.innerHTML += orderItem;
       });
     });
 
-  // // Handle the View Invoice button click to populate the modal
-  // document.addEventListener("click", function (event) {
-  //   if (event.target.classList.contains("view-invoice")) {
-  //     var orderData = JSON.parse(event.target.getAttribute("data-order"));
-  //     // Update the modal with orderData, similar to the previous example
-  //     document.querySelector("#invoiceModal .modal-title").textContent =
-  //       "Invoice for Order ID: " + orderData.order_id;
-  //     // Populate the modal with invoice details here
-  //   }
+  // // Handle the "View Details" button click to navigate to order details page
+  // const viewDetailsButtons = document.querySelectorAll(".view-details");
+  // viewDetailsButtons.forEach((button) => {
+  //   button.addEventListener("click", function () {
+  //     const orderId =
+  //       this.parentElement.parentElement.getAttribute("data-orderid");
+  //     goToOrderDetails(orderId);
+  //   });
   // });
+
+  // // Handle the "Approve" button click to change the order status
+  // const approveOrderButtons = document.querySelectorAll(".approve-order");
+  // approveOrderButtons.forEach((button) => {
+  //   button.addEventListener("click", function () {
+  //     const orderId = this.getAttribute("data-orderid");
+  //     approveOrder(orderId);
+  //   });
+  // });
+
+  const contain = document.querySelector("#order-list");
+  contain.addEventListener("click", function (e) {
+    if (e.target.classList.contains("view-details")) {
+      const orderId =
+        e.target.parentElement.parentElement.getAttribute("data-orderid");
+      goToOrderDetails(orderId);
+    }
+
+    if (e.target.classList.contains("approve-order")) {
+      const orderId =
+        e.target.parentElement.parentElement.getAttribute("data-orderid");
+      approveOrder(orderId);
+    }
+  });
 
   function displayInvoice(orderId) {
     // Fetch invoices from the JSON file
@@ -163,19 +233,6 @@ document.addEventListener("DOMContentLoaded", function () {
       : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
 
-  // function getUrlParameter(parameterName) {
-  //   // Get the URL query string
-  //   const queryString = window.location.search;
-  //
-  //   // Create a URLSearchParams object from the query string
-  //   const searchParams = new URLSearchParams(queryString);
-  //
-  //   // Use the get() method to retrieve the value of the specified parameter
-  //   const parameterValue = searchParams.get(parameterName);
-  //
-  //   return parameterValue;
-  // }
-
   const employeeId = getUrlParameter("employeeId");
   const password = getUrlParameter("password");
 
@@ -194,13 +251,5 @@ document.addEventListener("DOMContentLoaded", function () {
       const orderId = this.getAttribute("data-orderid");
       displayInvoice(orderId);
     });
-  });
-
-  const contain = document.querySelector("#order-list");
-  contain.addEventListener("click", function (e) {
-    if (e.target.classList.contains("view-invoice")) {
-      const orderId = e.target.getAttribute("data-orderid");
-      displayInvoice(orderId);
-    }
   });
 });

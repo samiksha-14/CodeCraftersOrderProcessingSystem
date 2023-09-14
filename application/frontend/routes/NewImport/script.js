@@ -59,9 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Calculate the number of partially imported products (if needed)
-    // ...
-
     // Determine the import status
     if (notImportedProducts > 0) {
         importStatus = "Failed";
@@ -100,8 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
         
 
     function isValidProduct(product) {
-        // Implement your validation logic here
-        // For this example, we assume all products are valid
         return true;
     }
 

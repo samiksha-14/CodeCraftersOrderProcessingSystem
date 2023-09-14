@@ -13,7 +13,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     public int retrieveEmployeePassword(int id, int password) {
         int retrievedPassword = 0;
         try(Connection connection = DataSourceConnectionFactory.getConnection()) {
-            String sqlQuery = "SELECT password FROM Employee WHERE employeeId = ?";
+            String sqlQuery = "SELECT password FROM Employees WHERE employeeId = ?";
             try(PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                 preparedStatement.setInt(1, id);
                 preparedStatement.executeQuery();
@@ -37,7 +37,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     public boolean employeeLoginStatus(int id) {
         boolean loggedIn = false;
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
-            String sqlQuery = "SELECT loggedIn FROM Employee WHERE employeeId = ?";
+            String sqlQuery = "SELECT loggedIn FROM Employees WHERE employeeId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                 preparedStatement.setInt(1, id);
                 preparedStatement.executeQuery();
@@ -58,7 +58,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     public void updateEmployeeLoginStatus(int id, boolean status) {
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
             if(status) {
-                String sqlQuery = "UPDATE Employee SET loggedIn = ?, lastLoggedIn = ? WHERE employeeId = ?";
+                String sqlQuery = "UPDATE Employees SET loggedIn = ?, lastLoggedIn = ? WHERE employeeId = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                     preparedStatement.setBoolean(1, true);
                     preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
@@ -71,7 +71,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
                     }
                 }
             } else {
-                String sqlQuery = "UPDATE Employee SET loggedIn = ? WHERE employeeId = ?";
+                String sqlQuery = "UPDATE Employees SET loggedIn = ? WHERE employeeId = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                     preparedStatement.setBoolean(1, false);
                     preparedStatement.setInt(2, id);
@@ -91,7 +91,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     @Override
     public Employee loadEmployee(int id) {
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
-            String sqlQuery = "SELECT * FROM Employee WHERE employeeId = ?";
+            String sqlQuery = "SELECT * FROM Employees WHERE employeeId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                 preparedStatement.setInt(1, id);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {

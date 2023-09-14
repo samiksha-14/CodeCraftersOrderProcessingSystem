@@ -17,9 +17,9 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
 
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
             String sqlQuery = "SELECT o.orderID, o.orderDate, o.totalOrderValue, c.name AS customerName, c.city AS customerCity " +
-                    "FROM `Order` o " +
+                    "FROM `Orders` o " +
                     "INNER JOIN Customer c ON o.customerID = c.customerID " +
-                    "INNER JOIN OrderStatus os ON o.orderID = os.orderID " +
+                    "INNER JOIN Order_Status os ON o.orderID = os.orderID " +
                     "WHERE os.status = 'Approved'";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -49,9 +49,9 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
 
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
             String sqlQuery = "SELECT o.orderID, o.orderDate, o.totalOrderValue, c.name AS customerName, c.city AS customerCity " +
-                    "FROM `Order` o " +
+                    "FROM `Orders` o " +
                     "INNER JOIN Customer c ON o.customerID = c.customerID " +
-                    "INNER JOIN OrderStatus os ON o.orderID = os.orderID " +
+                    "INNER JOIN Order_Status os ON o.orderID = os.orderID " +
                     "WHERE os.status = 'Pending'";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -82,9 +82,9 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
 
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
             String sqlQuery = "SELECT o.orderID, o.orderDate, o.totalOrderValue, c.name AS customerName, c.city AS customerCity " +
-                    "FROM `Order` o " +
+                    "FROM `Orders` o " +
                     "INNER JOIN Customer c ON o.customerID = c.customerID " +
-                    "INNER JOIN OrderStatus os ON o.orderID = os.orderID " +
+                    "INNER JOIN Order_Status os ON o.orderID = os.orderID " +
                     "WHERE os.status = 'Completed'";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -114,9 +114,9 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
 
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
             String sqlQuery = "SELECT o.orderID, o.orderDate, o.totalOrderValue, c.name AS customerName, c.city AS customerCity " +
-                    "FROM `Order` o " +
+                    "FROM `Orders` o " +
                     "INNER JOIN Customer c ON o.customerID = c.customerID " +
-                    "INNER JOIN OrderStatus os ON o.orderID = os.orderID " +
+                    "INNER JOIN Order_Status os ON o.orderID = os.orderID " +
                     "WHERE os.status = 'Expired'";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -145,7 +145,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
         boolean isApproved = false;
 
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
-            String sqlQuery = "SELECT status FROM OrderStatus WHERE orderID = ?";
+            String sqlQuery = "SELECT status FROM Order_Status WHERE orderID = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                 preparedStatement.setInt(1, id); // Set the order ID parameter
@@ -205,7 +205,7 @@ public class JdbcOrdersRepositoryEmp implements OrdersRepositoryEmp {
     public boolean createNewQuote(Order order, double totalOrderValue, double shippingCost) {
 
         try (Connection connection = DataSourceConnectionFactory.getConnection()) {
-            String sqlQuery = "INSERT INTO `Order` (orderDate, customerID, customerShippingAddress, totalOrderValue, shippingCost, shippingAgency) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlQuery = "INSERT INTO `Orders` (orderDate, customerID, customerShippingAddress, totalOrderValue, shippingCost, shippingAgency) VALUES (?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
                 preparedStatement.setDate(1, new java.sql.Date(order.getOrderDate().getTime()));

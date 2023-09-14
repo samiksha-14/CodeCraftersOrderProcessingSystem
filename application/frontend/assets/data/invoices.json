@@ -1,0 +1,70 @@
+{
+  "invoices": [
+    {
+      "invoice_id": "INV001",
+      "invoice_date": "2023-09-14T00:00:00.000Z",
+      "order_details": {
+        "order_id": "12345",
+        "order_date": "2023-09-14T00:00:00.000Z"
+      },
+      "customer_details": {
+        "customer_id": "C001",
+        "customer_name": "John Doe",
+        "gst_number": "GST123456789",
+        "address": "123 Main St, Cityville, USA",
+        "city": "Cityville",
+        "email": "johndoe@example.com",
+        "phone_number": "+1 (123) 456-7890",
+        "pin_code": "12345"
+      },
+      "products": [
+        {
+          "product_id": "P001",
+          "product_name": "Product A",
+          "price": 19.99,
+          "category": 2
+        },
+        {
+          "product_id": "P002",
+          "product_name": "Product B",
+          "price": 29.99,
+          "category": 3
+        }
+      ],
+      "gst_type": "inter-state",
+      "total_gst_amount": 19.49,
+      "total_invoice_value": 199.44,
+      "status": "unpaid"
+    },
+    {
+      "invoice_id": "INV002",
+      "invoice_date": "2023-09-15T00:00:00.000Z",
+      "order_details": {
+        "order_id": "67890",
+        "order_date": "2023-09-15T00:00:00.000Z"
+      },
+      "customer_details": {
+        "customer_id": "C002",
+        "customer_name": "Jane Smith",
+        "gst_number": "GST987654321",
+        "address": "456 Elm St, Townsville, USA",
+        "city": "Townsville",
+        "email": "janesmith@example.com",
+        "phone_number": "+1 (987) 654-3210",
+        "pin_code": "54321"
+      },
+      "products": [
+        {
+          "product_id": "P003",
+          "product_name": "Product C",
+          "price": 49.99,
+          "category": 1
+        }
+      ],
+      "gst_type": "same state",
+      "total_gst_amount": 4.0,
+      "total_invoice_value": 58.99,
+      "status": "paid"
+    }
+  ]
+}

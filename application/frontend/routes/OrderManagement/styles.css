@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates&family=Nunito&display=swap");
+
+body,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+body {
+  background-color: #f0f0f0;
+
+  font-family: "Montserrat Alternates", sans-serif;
+  font-family: "Nunito", sans-serif;
+}
+
+header {
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+.qcontainer {
+  background: linear-gradient(45deg, #cca9a9, #5dc7d6);
+  padding: 1.6rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  width: 45%;
+  margin: 20px auto;
+  color: #fff;
+}
+
+.list-group-item {
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.view-invoice {
+  margin-top: 10px;
+}
+
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-header {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.close {
+  color: #007bff;
+}

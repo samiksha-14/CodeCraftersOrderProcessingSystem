@@ -1,0 +1,54 @@
+{
+  "customers": [
+    {
+      "customer_id": "C001",
+      "name": "John Doe",
+      "gst_number": "GST123456789",
+      "address": "123 Main St",
+      "city": "Cityville",
+      "email": "johndoe@example.com",
+      "phone_number": "+1 (123) 456-7890",
+      "pin_code": "12345"
+    },
+    {
+      "customer_id": "C002",
+      "name": "Jane Smith",
+      "gst_number": "GST987654321",
+      "address": "456 Elm St",
+      "city": "Townsville",
+      "email": "janesmith@example.com",
+      "phone_number": "+1 (987) 654-3210",
+      "pin_code": "54321"
+    },
+    {
+      "customer_id": "C003",
+      "name": "Alice Johnson",
+      "gst_number": "GST567890123",
+      "address": "789 Oak St",
+      "city": "Villagetown",
+      "email": "alicejohnson@example.com",
+      "phone_number": "+1 (567) 890-1234",
+      "pin_code": "67890"
+    },
+    {
+      "customer_id": "C004",
+      "name": "Bob Brown",
+      "gst_number": "GST456789012",
+      "address": "321 Pine St",
+      "city": "Forestville",
+      "email": "bobbrown@example.com",
+      "phone_number": "+1 (345) 678-9012",
+      "pin_code": "23456"
+    },
+    {
+      "customer_id": "C005",
+      "name": "Eva White",
+      "gst_number": "GST234567890",
+      "address": "567 Cedar St",
+      "city": "Gardentown",
+      "email": "evawhite@example.com",
+      "phone_number": "+1 (234) 567-8901",
+      "pin_code": "78901"
+    }
+  ]
+}

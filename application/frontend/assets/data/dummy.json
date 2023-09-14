@@ -1,0 +1,27 @@
+[
+    {
+        "productid": "12345",
+        "name": "Product 1",
+        "category": "Level 1"
+    },
+    {
+        "productid": "67890",
+        "name": "Product 2",
+        "category": "Level 2"
+    },
+    {
+        "productid": "54321",
+        "name": "Product 3",
+        "category": "Level 1"
+    },
+    {
+        "productid": "98765",
+        "name": "Product 4",
+        "category": "Level 3"
+    },
+    {
+        "productid": "97665",
+        "name": "Product 5",
+        "category": "Level 1"
+    }
+]
